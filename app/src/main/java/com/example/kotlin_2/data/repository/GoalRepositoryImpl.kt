@@ -3,21 +3,17 @@ package com.example.kotlin_2.data.repository
 import androidx.lifecycle.LiveData
 import com.example.kotlin_2.data.dao.GoalDao
 import com.example.kotlin_2.data.model.GoalItem
+import kotlinx.coroutines.flow.Flow
 
-class GoalRepositoryImpl(
+class GoalRepositoryImpl (
     private val goalDao: GoalDao
-) : GoalRepository {
+        ) : GoalRepository {
     override suspend fun insertGoal(goalItem: GoalItem) {
         goalDao.insertGoal(goalItem)
     }
 
     override suspend fun deleteGoal(goalItem: GoalItem) {
         goalDao.deleteGoal(goalItem)
-        /*var goals = getAllGoals().value
-        if(goals!!.count()==1){
-            goals.first().active = true
-            updateGoal(goals.first())
-        }*/
     }
 
     override suspend fun updateGoal(goalItem: GoalItem){
@@ -32,16 +28,8 @@ class GoalRepositoryImpl(
         return goalDao.readGoals()
     }
 
-    override suspend fun getActiveGoal(): GoalItem {
+    override suspend fun getActiveGoal(): GoalItem? {
         return goalDao.getActiveGoal()
-    }
-
-    override suspend fun getGoalByName(name: String): GoalItem? {
-        return goalDao.getGoalByName(name)
-    }
-
-    override suspend fun getGoalBySteps(steps: Int): GoalItem? {
-        return goalDao.getGoalBySteps(steps)
     }
 
     override suspend fun setActiveGoal(goalItem: GoalItem) {
@@ -55,4 +43,24 @@ class GoalRepositoryImpl(
 
     }
 
+//    fun getAllGoals(): List<GoalItem>{
+//        return listOf(
+//            GoalItem(
+//                steps = 1000,
+//                name = "Easy",
+//                active = true
+//            ),
+//            GoalItem(
+//                steps = 5000,
+//                name = "Medium",
+//                active = false
+//            ),
+//            GoalItem(
+//                steps = 10000,
+//                name = "Hard",
+//                active = false
+//            ),
+//
+//            )
+//    }
 }

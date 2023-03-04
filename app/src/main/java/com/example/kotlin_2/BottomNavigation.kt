@@ -68,7 +68,7 @@ fun BottomNavGraph(
     ){
         composable("home"){ HomeScreen(homeViewModel) }
         composable("history"){ HistoryScreen() }
-        composable("goal"){ GoalScreen(goalViewModel, homeViewModel)}//, settingsViewModel) }
+        composable("goal"){ GoalScreen(goalViewModel, homeViewModel) }
         composable("settings"){SettingsScreen(settingsViewModel)}
     }
 }

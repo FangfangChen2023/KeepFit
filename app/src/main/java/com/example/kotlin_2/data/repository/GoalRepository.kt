@@ -17,9 +17,5 @@ interface GoalRepository {
 
     suspend fun setActiveGoal(item: GoalItem)
 
-    suspend fun getGoalByName(name: String): GoalItem?
-
-    suspend fun getGoalBySteps(steps: Int): GoalItem?
-
     suspend fun updateGoal(goalItem: GoalItem)
 }

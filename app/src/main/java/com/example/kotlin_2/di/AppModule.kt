@@ -3,11 +3,14 @@ package com.example.kotlin_2.di
 import android.app.Application
 import androidx.room.Room
 import com.example.kotlin_2.data.AppDatabase
+import com.example.kotlin_2.data.dao.DailyDao
+import com.example.kotlin_2.data.model.DailyStatus
 import com.example.kotlin_2.data.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.time.LocalDate
 import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,11 +38,5 @@ object AppModule {
     @Singleton
     fun provideDailyRepository(db:AppDatabase): DailyRepository {
         return DailyRepositoryImpl(db.dailyDao())
-    }
-
-    @Provides
-    @Singleton
-    fun provideSettingRepository(db:AppDatabase): SettingRepository {
-        return SettingRepositoryImpl(db.settingDao())
     }
 }

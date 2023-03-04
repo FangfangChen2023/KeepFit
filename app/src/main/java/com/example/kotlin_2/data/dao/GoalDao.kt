@@ -1,5 +1,6 @@
 package com.example.kotlin_2.data.dao
 
+import androidx.core.app.RemoteInput.EditChoicesBeforeSending
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.kotlin_2.data.model.GoalItem
@@ -12,13 +13,7 @@ interface GoalDao {
     @Query("SELECT * FROM GoalItem WHERE active = 1")
     fun getActiveGoal(): GoalItem
 
-    @Query("SELECT * FROM GoalItem WHERE name = :name")
-    fun getGoalByName(name: String): GoalItem?
-
-    @Query("SELECT * FROM GoalItem WHERE steps = :steps")
-    fun getGoalBySteps(steps: Int): GoalItem?
-
-    @Insert
+    @Insert()
     fun insertGoal(goalItem: GoalItem)
 
     @Update
@@ -29,6 +24,5 @@ interface GoalDao {
 
     @Delete
     fun deleteGoal(goalItem: GoalItem)
-
 
 }
