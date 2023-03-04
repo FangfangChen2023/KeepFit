@@ -158,6 +158,9 @@ fun GoalScreen(goalViewModel:GoalViewModel, homeViewModel: HomeViewModel) {
         //val sharedPreferenceGoal =  context.getSharedPreferences("goal", Context.MODE_PRIVATE)
         //val editorGoal = sharedPreferenceGoal.edit()
 
+        Spacer(Modifier.height(10.dp))
+        ButtonDialogExample(goalViewModel, homeViewModel)
+        Spacer(Modifier.height(10.dp))
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -205,10 +208,9 @@ fun GoalScreen(goalViewModel:GoalViewModel, homeViewModel: HomeViewModel) {
                         /* TODO make goal editable  depending on preferences*/
                     }
                 }
+                Spacer(Modifier.height(50.dp))
             }
         }
-        Spacer(Modifier.height(20.dp))
-        ButtonDialogExample(goalViewModel, homeViewModel)
     }
 }
 
