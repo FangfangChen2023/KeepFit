@@ -68,7 +68,7 @@ fun BottomNavGraph(
         navController = navController,
         startDestination = "home"
     ){
-        composable("home"){ HomeScreen(homeViewModel) }
+        composable("home"){ HomeScreen(homeViewModel, settingsViewModel) }
         composable("history"){ HistoryScreen(historyViewModel, settingsViewModel) }
         composable("goal"){ GoalScreen(goalViewModel, homeViewModel, settingsViewModel) }
         composable("settings"){SettingsScreen(settingsViewModel)}

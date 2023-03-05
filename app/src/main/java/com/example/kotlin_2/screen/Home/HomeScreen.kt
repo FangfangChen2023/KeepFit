@@ -34,11 +34,21 @@ import java.time.LocalTime
 
 
 @Composable
-fun HomeScreen(homeViewModel:HomeViewModel) {
+fun HomeScreen(
+    homeViewModel:HomeViewModel,
+    settingsViewModel: SettingsViewModel
+) {
     var steps by remember { mutableStateOf(0) }
     var stepsInput by remember { mutableStateOf(0) }
     val focusManager = LocalFocusManager.current
-    var inputEnabled   by remember { mutableStateOf(true) }
+
+    // Setting
+    var editableNormal by remember { mutableStateOf(true) }
+
+    settingsViewModel.changeSettings.observeForever{
+        editableNormal = it.getBoolean("editableNormal", true)
+    }
+
 
     var currentDaily: DailyStatus by remember {
         mutableStateOf (
@@ -74,7 +84,8 @@ fun HomeScreen(homeViewModel:HomeViewModel) {
 
                     Spacer(Modifier.height(20.dp))
                     OutlinedTextField(
-                        enabled = inputEnabled,
+                        enabled = editableNormal,
+//                        isError = true,
                         modifier = Modifier
                             .background(Color.Transparent),
 

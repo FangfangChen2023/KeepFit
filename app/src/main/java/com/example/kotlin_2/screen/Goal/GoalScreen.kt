@@ -198,27 +198,39 @@ fun GoalScreen(
                         }*/
                 )
                 var editDialog = remember { mutableStateOf(false) }
-                if (!goalItem.active && editableGoals) {
-                    Row() {
-                        /*TODO change this into prettier button*/
-                        IconButton(onClick = {
+                if (!goalItem.active) {
+                    if(editableGoals){
+                        Row {
+                            IconButton(onClick = {
                                 editDialog.value = true
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit"
-                            )
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Edit,
+                                    contentDescription = "Edit"
+                                )
+                            }
+                            IconButton(onClick = {
+                                goalViewModel.onDeleteGoal(goalItem)
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete"
+                                )
+                            }
                         }
-                        IconButton(onClick = {
-                            goalViewModel.onDeleteGoal(goalItem)
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete"
-                            )
+                    }else{
+                        Row{
+                            IconButton(onClick = {
+                                goalViewModel.onDeleteGoal(goalItem)
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete"
+                                )
+                            }
                         }
-                        /* TODO make goal editable  depending on preferences*/
                     }
+
                 }
                 Spacer(Modifier.height(20.dp))
 
