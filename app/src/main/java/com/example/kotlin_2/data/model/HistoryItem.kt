@@ -7,8 +7,8 @@ import java.time.LocalDateTime
 
 @Entity
 data class HistoryItem(
-    /*val date: LocalDateTime,
-    var name: String,*/
+    val date: String,
+    var name: String,
     var steps: Int,
     @PrimaryKey var id:Int? = null
 )

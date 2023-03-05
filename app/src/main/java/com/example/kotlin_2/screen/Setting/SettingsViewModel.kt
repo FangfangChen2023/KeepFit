@@ -1,6 +1,7 @@
 package com.example.kotlin_2.screen.Setting
 
 import android.app.Application
+import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,15 +20,29 @@ import com.example.kotlin_2.screen.HomeScreen
 import java.time.LocalDateTime
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+    val changeSettings = MutableLiveData(
+        application.getSharedPreferences("my_preferences", Application.MODE_PRIVATE))
 
-    fun editableGoals() {
+    fun changeEditableGoals(editableGoals : Boolean) {
+        with(changeSettings.value!!.edit()){
+            putBoolean("editableGoals", editableGoals)
+            apply()
+        }
 
     }
-    fun historicalActivityRecording(){
+    fun historicalActivityRecording(editableHistories : Boolean){
+        with(changeSettings.value!!.edit()){
+            putBoolean("editableHistories", editableHistories)
+            apply()
+        }
 
     }
 
-    fun normalActivityRecording() {
+    fun normalActivityRecording(editableNormal : Boolean) {
+        with(changeSettings.value!!.edit()){
+            putBoolean("editableNormal", editableNormal)
+            apply()
+        }
 
     }
 

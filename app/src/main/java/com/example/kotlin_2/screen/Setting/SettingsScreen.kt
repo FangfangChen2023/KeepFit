@@ -28,16 +28,27 @@ import androidx.core.content.edit
 @Composable
 fun SettingsScreen(settingsViewModel: SettingsViewModel) {
 
-    var option1Enabled by rememberSaveable { mutableStateOf(true) }
-    var option2Enabled by rememberSaveable { mutableStateOf( true) }
-    var option3Enabled by rememberSaveable { mutableStateOf(false) }
+    var editableGoals by rememberSaveable { mutableStateOf(true) }
+    var editableNormal by rememberSaveable { mutableStateOf( true) }
+    var editableHistories by rememberSaveable { mutableStateOf(false) }
 
-    val sharedPreferences = LocalContext.current.getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+//    val sharedPreferences = LocalContext.current.getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
 
-    LaunchedEffect(Unit) {
-        option1Enabled = sharedPreferences.getBoolean("option1Enabled", true)
-        option2Enabled = sharedPreferences.getBoolean("option2Enabled", true)
-        option3Enabled = sharedPreferences.getBoolean("option3Enabled", false)
+//    LaunchedEffect(Unit) {
+//        option1Enabled = sharedPreferences.getBoolean("option1Enabled", true)
+//        option2Enabled = sharedPreferences.getBoolean("option2Enabled", true)
+//        option3Enabled = sharedPreferences.getBoolean("option3Enabled", false)
+//    }
+    val settingsCopy = settingsViewModel.changeSettings.value
+
+    if(settingsCopy != null){
+        editableGoals = settingsCopy.getBoolean("editableGoals", true)
+    }
+    if(settingsCopy != null){
+        editableNormal = settingsCopy.getBoolean("editableNormal", true)
+    }
+    if(settingsCopy != null){
+        editableHistories = settingsCopy.getBoolean("editableHistories", false)
     }
 
     /*TopAppBar(
@@ -70,15 +81,12 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
                         fontSize = MaterialTheme.typography.h6.fontSize,
                         fontWeight = FontWeight.Bold)
                     Switch(
-                        checked = option1Enabled,
+                        checked = editableGoals,
                         onCheckedChange = { checked ->
-                            option1Enabled = checked
+                            editableGoals = checked
 
-                            // Save the option enabled state to SharedPreferences
-                            with(sharedPreferences.edit()) {
-                                putBoolean("option1Enabled", checked)
-                                apply()
-                            }
+                            settingsViewModel.changeEditableGoals(editableGoals)
+
                         }
                     )
                 }
@@ -87,17 +95,13 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
                         fontSize = MaterialTheme.typography.h6.fontSize,
                         fontWeight = FontWeight.Bold)
                     Switch(
-                        checked = option2Enabled,
+                        checked = editableNormal,
                         onCheckedChange = { checked ->
-                            option2Enabled = checked
-                            option3Enabled = !checked
+                            editableNormal = checked
+                            editableHistories = !checked
 
-                            // Save the option enabled state to SharedPreferences
-                            with(sharedPreferences.edit()) {
-                                putBoolean("option2Enabled", checked)
-                                putBoolean("option3Enabled", !checked)
-                                apply()
-                            }
+                            settingsViewModel.historicalActivityRecording(editableHistories)
+                            settingsViewModel.normalActivityRecording(editableNormal)
                         }
                     )
                 }
@@ -106,17 +110,19 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
                         fontSize = MaterialTheme.typography.h6.fontSize,
                         fontWeight = FontWeight.Bold)
                     Switch(
-                        checked = option3Enabled,
+                        checked = editableHistories,
                         onCheckedChange = { checked ->
-                            option3Enabled = checked
-                            option2Enabled = !checked
+                            editableHistories = checked
+                            editableNormal = !checked
 
-                            // Save the option enabled state to SharedPreferences
-                            with(sharedPreferences.edit()) {
-                                putBoolean("option3Enabled", checked)
-                                putBoolean("option2Enabled", !checked)
-                                apply()
-                            }
+//                            // Save the option enabled state to SharedPreferences
+//                            with(sharedPreferences.edit()) {
+//                                putBoolean("option3Enabled", checked)
+//                                putBoolean("option2Enabled", !checked)
+//                                apply()
+//                            }
+                            settingsViewModel.historicalActivityRecording(editableHistories)
+                            settingsViewModel.normalActivityRecording(editableNormal)
                         }
                     )
                 }

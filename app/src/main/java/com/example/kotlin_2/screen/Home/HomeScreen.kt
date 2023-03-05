@@ -39,35 +39,20 @@ fun HomeScreen(homeViewModel:HomeViewModel) {
     var stepsInput by remember { mutableStateOf(0) }
     val focusManager = LocalFocusManager.current
     var inputEnabled   by remember { mutableStateOf(true) }
-    /*var allGoals: List<GoalItem> by remember { mutableStateOf( emptyList()) }
-        goalViewModel.goals.observeForever {
-            allGoals = it
-        }*/
-    var currentDaily: DailyStatus by remember {mutableStateOf (DailyStatus(currentSteps = 0, todayDate = LocalDate.now().toString(), goalName ="test", goalSteps = 5000)
+
+    var currentDaily: DailyStatus by remember {
+        mutableStateOf (
+            DailyStatus(currentSteps = 0,
+                todayDate = LocalDate.now().toString(),
+                goalName ="default", goalSteps = 5000
+            )
     ) }
     //TODO on restart of the app it always first displays the default goal, then when you switch between tabs it displays the currently active goal?
-    homeViewModel.dailyDB.observeForever {
-        currentDaily = it
-    }
-    /*var allGoals: List<GoalItem> by remember { mutableStateOf( emptyList()) }
-        goalViewModel.goals.observeForever {
-            allGoals = it
-        }*/
-    /*
-    homeViewModel.isDailyNotNull.observeForever(Observer {
-        inputEnabled = it
-    })*/
-
-
-    /*TopAppBar(
-        title = { Text("iWalk") },
-        actions = {
-            // RowScope here, so these icons will be placed horizontally
-            IconButton(onClick = {settingsViewModel.navigateOnClick()}) {
-                Icon(Icons.Filled.Settings, contentDescription = "Localized description")
-            }
+    if(homeViewModel.isDailyDBInitialized()){
+        homeViewModel.dailyDB.observeForever {
+            currentDaily = it
         }
-    )*/
+    }
 
                 Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
                     Spacer(Modifier.height(75.dp))

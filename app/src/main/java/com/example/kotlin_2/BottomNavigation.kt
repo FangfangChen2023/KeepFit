@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 //import com.example.kotlin_2.data.dao.HistoryDao
 import com.example.kotlin_2.screen.Goal.GoalViewModel
 import com.example.kotlin_2.screen.GoalScreen
+import com.example.kotlin_2.screen.History.HistoryViewModel
 import com.example.kotlin_2.screen.HistoryScreen
 import com.example.kotlin_2.screen.Home.HomeViewModel
 import com.example.kotlin_2.screen.HomeScreen
@@ -60,15 +61,16 @@ fun BottomNavGraph(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
     goalViewModel: GoalViewModel,
-    settingsViewModel: SettingsViewModel
+    settingsViewModel: SettingsViewModel,
+    historyViewModel: HistoryViewModel
 ){
     NavHost(
         navController = navController,
         startDestination = "home"
     ){
         composable("home"){ HomeScreen(homeViewModel) }
-        composable("history"){ HistoryScreen() }
-        composable("goal"){ GoalScreen(goalViewModel, homeViewModel) }
+        composable("history"){ HistoryScreen(historyViewModel, settingsViewModel) }
+        composable("goal"){ GoalScreen(goalViewModel, homeViewModel, settingsViewModel) }
         composable("settings"){SettingsScreen(settingsViewModel)}
     }
 }

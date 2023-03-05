@@ -27,8 +27,6 @@ class GoalViewModel @Inject constructor(
     }
 
 
-
-
     fun onClickOnGoal(
         goalItem: GoalItem,
         dailyStatus: DailyStatus,

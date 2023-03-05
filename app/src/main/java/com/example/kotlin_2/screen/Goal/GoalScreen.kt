@@ -2,6 +2,7 @@ package com.example.kotlin_2.screen
 
 //import DataBaseHandler
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.util.Log
 
 import androidx.compose.material.*
@@ -23,6 +24,7 @@ import com.example.kotlin_2.data.model.GoalItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.example.kotlin_2.data.model.DailyStatus
 import com.example.kotlin_2.screen.Goal.GoalViewModel
 import com.example.kotlin_2.screen.Home.HomeViewModel
@@ -109,7 +111,11 @@ fun ButtonDialogExample(goalViewModel: GoalViewModel, homeViewModel: HomeViewMod
 //@Preview
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun GoalScreen(goalViewModel:GoalViewModel, homeViewModel: HomeViewModel) {
+fun GoalScreen(
+    goalViewModel:GoalViewModel,
+    homeViewModel: HomeViewModel,
+    settingsViewModel: SettingsViewModel
+) {
     /*TopAppBar(
         title = { Text("iWalk") },
         actions = {
@@ -119,13 +125,18 @@ fun GoalScreen(goalViewModel:GoalViewModel, homeViewModel: HomeViewModel) {
             }
         }
     )*/
+    var editableGoals by remember { mutableStateOf(true) }
+
+    settingsViewModel.changeSettings.observeForever{
+        editableGoals = it.getBoolean("editableGoals", true)
+    }
 
 
     Column(
         modifier = Modifier
             .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(25.dp))
+        Spacer(Modifier.height(20.dp))
 
         //Text(text = "Goals")
 
@@ -186,11 +197,12 @@ fun GoalScreen(goalViewModel:GoalViewModel, homeViewModel: HomeViewModel) {
                             editorGoal.commit();
                         }*/
                 )
-                if (!goalItem.active) {
+                var editDialog = remember { mutableStateOf(false) }
+                if (!goalItem.active && editableGoals) {
                     Row() {
                         /*TODO change this into prettier button*/
                         IconButton(onClick = {
-                            goalViewModel.onUpdateGoal(goalItem)
+                                editDialog.value = true
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Edit,
@@ -208,7 +220,67 @@ fun GoalScreen(goalViewModel:GoalViewModel, homeViewModel: HomeViewModel) {
                         /* TODO make goal editable  depending on preferences*/
                     }
                 }
-                Spacer(Modifier.height(50.dp))
+                Spacer(Modifier.height(20.dp))
+
+                val focusManager = LocalFocusManager.current
+                var goalcopy by remember {
+                    mutableStateOf(goalItem)
+                }
+
+                if (editDialog.value) {
+                    AlertDialog(
+                        onDismissRequest = { editDialog.value = false },
+                        title = { Text("Edit Goal") },
+                        text = {
+                            Column {
+                                TextField(
+                                    value = goalcopy.name,
+                                    onValueChange = {
+                                        goalcopy = goalcopy.copy(name = it)
+                                                    },
+                                    label = { Text("New goals name")},
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Text,
+                                        imeAction = ImeAction.Done
+                                    ),
+                                    keyboardActions = KeyboardActions(
+                                        onDone = {
+                                            focusManager.clearFocus()
+                                        })
+                                )
+                                TextField(
+                                    value = goalcopy.steps.toString(),
+                                    onValueChange = { goalcopy = goalcopy.copy(steps = it.toInt()) },
+                                    label = { Text("New goal target") },
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Number,
+                                        imeAction = ImeAction.Done
+                                    ),
+                                    keyboardActions = KeyboardActions(
+                                        onDone = {
+                                            focusManager.clearFocus()
+                                        })
+                                )
+                            }
+                        },
+                        confirmButton = {
+                            Button(onClick = {
+                                goalViewModel.onUpdateGoal(goalcopy)
+                                focusManager.clearFocus()
+                                editDialog.value = false
+                            }) {
+                                Text("Confirm")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = {
+                                editDialog.value = false
+                            }) {
+                                Text("Cancel")
+                            }
+                        }
+                    )
+                }
             }
         }
     }

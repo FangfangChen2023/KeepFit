@@ -18,6 +18,7 @@ import com.example.kotlin_2.screen.Goal.GoalViewModel
 import com.example.kotlin_2.screen.Home.HomeViewModel
 import com.example.kotlin_2.screen.Setting.SettingsScreen
 import androidx.compose.material.Text
+import com.example.kotlin_2.screen.History.HistoryViewModel
 import com.example.kotlin_2.screen.Setting.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,13 +28,13 @@ class MainActivity : ComponentActivity() {
     val PREFS_NAME = "currentSteps"
     val PREFS_DAY = "date"
     val PREFS_GOAL = "goal"
+    val PREFS_SETTING = "setting"
 
     val homeViewModel: HomeViewModel by viewModels()
     val goalViewModel: GoalViewModel by viewModels()
     val settingsViewModel: SettingsViewModel by viewModels()
-    //val historyViewModel: HistoryViewModel by viewModels ()
+    val historyViewModel: HistoryViewModel by viewModels ()
 
-    //val settingsViewModel: SettingsViewModel by viewModels()
     /*viewModal = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
@@ -46,6 +47,8 @@ class MainActivity : ComponentActivity() {
         getSharedPreferences(PREFS_NAME, 0)
         getSharedPreferences(PREFS_DAY, 0)
         getSharedPreferences(PREFS_GOAL, 0)
+        getSharedPreferences(PREFS_SETTING, 0)
+        historyViewModel.applyWorker(this.application)
         setContent {
             SettingsScreen(settingsViewModel)
             val navController = rememberNavController()
@@ -111,7 +114,8 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     homeViewModel = homeViewModel,
                     goalViewModel = goalViewModel,
-                    settingsViewModel = settingsViewModel
+                    settingsViewModel = settingsViewModel,
+                    historyViewModel = historyViewModel
                 )
             }
         }

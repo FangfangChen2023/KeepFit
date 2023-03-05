@@ -19,7 +19,11 @@ class HistoryRepositoryImpl(
         return dao.getHistory(id)
     }
 
-    override fun getAllHistory(): Flow<List<HistoryItem>> {
-        return dao.getHistory()
+    override fun getAllHistory(): List<HistoryItem> {
+        return dao.getAllHistory()
+    }
+
+    override suspend fun updateHistory(historyItem: HistoryItem) {
+        dao.updateHistory(historyItem)
     }
 }

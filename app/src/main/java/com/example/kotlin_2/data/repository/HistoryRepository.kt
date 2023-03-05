@@ -11,5 +11,7 @@ interface HistoryRepository {
 
     suspend fun getHistory(id: Int) : HistoryItem?
 
-    fun getAllHistory() : Flow<List<HistoryItem>>
+    fun getAllHistory() : List<HistoryItem>
+
+    suspend fun updateHistory(historyItem: HistoryItem)
 }
