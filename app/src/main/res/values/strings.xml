@@ -1,7 +1,19 @@
 <resources>
-    <string name="app_name">iWalk</string>
+    <string name="app_name">KeepFit</string>
     <string name="history">History</string>
     <string name="home">Home</string>
     <string name="goal">Goal</string>
     <string name="settings">Settings</string>
+
+    <string name="situations_cache">SituationsCache</string>
+    <string name="weather_is_good">WeatherIsGood</string>
+    <string name="five_pm">FivePm</string>
+    <string name="steps">Steps</string>
+    <string name="target">Target</string>
+    <string name="calendar_is_empty">CalendarIsEmpty</string>
+    <string name="location_near">LocationNear</string>
+    <string name="mapbox_access_token">sk.eyJ1IjoibmluYWJybyIsImEiOiJjbGdjcnQwZ2QwZXVuM3RzeGtsd3IwbmFrIn0.cb21VHlW5FK1rifVJOiHiw</string>
+    <string name="user">User</string>
+    <string name="default_notification_channel_id">take_a_walk_channel</string>
+
 </resources>
